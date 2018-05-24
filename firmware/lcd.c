@@ -133,87 +133,87 @@ void lcdSmallNumber(unsigned char num)
 
 void lcdAlphaNum(unsigned char pos, unsigned char c)
 {
-	unsigned char *ptr = LCD_ADDR + 2 + ((pos%6)*4);  //The first 2 seg are for the small number
+    unsigned char *ptr = LCD_ADDR + 2 + ((pos % 6) * 4); //The first 2 seg are for the small number
 
+    if (flashPos == pos && ((flashTime++) & 0x04)) //turn on and off evey 4 cycles
+        c = '_';
 
-  if (flashPos == pos &&
-      ((flashTime++)&0x04)) //turn on and off evey 4 cycles
-    c= '_';
+    if (c == ' ')
+        c = 0;
+    else
+        c = c - '/' + 1; //We start with a slash, and the first one is space
 
-  if (c == ' ')
-    c = 0;
-  else
-    c = c - '/' + 1; //We start with a slash, and the first one is space
-
-
-	if (pos > 5) //upper segment
+    if (pos > 5) //upper segment
     {
-     *(ptr+0) = *(ptr+0)&0x0F | alphaNumFont[c][3]&0xF0;
-     *(ptr+1) = *(ptr+1)&0x0F | alphaNumFont[c][2]&0xF0;
-     *(ptr+2) = *(ptr+2)&0x0F | alphaNumFont[c][1]&0xF0;
-     *(ptr+3) = *(ptr+3)&0x0F | alphaNumFont[c][0]&0xF0;
-    } else { //lower segment
-     *(ptr+0) = *(ptr+0)&0xF0 | alphaNumFont[c][3]&0x0F;
-     *(ptr+1) = *(ptr+1)&0xF0 | alphaNumFont[c][2]&0x0F;
-     *(ptr+2) = *(ptr+2)&0xF0 | alphaNumFont[c][1]&0x0F;
-     *(ptr+3) = *(ptr+3)&0xF0 | alphaNumFont[c][0]&0x0F;
-	}
-    
- }
+        *(ptr + 0) = *(ptr + 0) & 0x0F | alphaNumFont[c][3] & 0xF0;
+        *(ptr + 1) = *(ptr + 1) & 0x0F | alphaNumFont[c][2] & 0xF0;
+        *(ptr + 2) = *(ptr + 2) & 0x0F | alphaNumFont[c][1] & 0xF0;
+        *(ptr + 3) = *(ptr + 3) & 0x0F | alphaNumFont[c][0] & 0xF0;
+    }
+    else
+    { //lower segment
+        *(ptr + 0) = *(ptr + 0) & 0xF0 | alphaNumFont[c][3] & 0x0F;
+        *(ptr + 1) = *(ptr + 1) & 0xF0 | alphaNumFont[c][2] & 0x0F;
+        *(ptr + 2) = *(ptr + 2) & 0xF0 | alphaNumFont[c][1] & 0x0F;
+        *(ptr + 3) = *(ptr + 3) & 0xF0 | alphaNumFont[c][0] & 0x0F;
+    }
 
+}
 
 void lcdInit(unsigned char rSelf_Volt)
 {
 
+    R5IO = 0xFF;		//
+    R5 = 0x00;			//
+    R5PSR = 0x00;       // R5 LCD Segment out
 
-	R5IO		= 0xFF;			//							 
-	R5		    = 0x00;			//   							 
-	R5PSR		= 0x00;			// R5 LCD Segment out     
+    R6IO = 0xFF;			//
+    R6 = 0x00;			//
+    R6PSR = 0x00;			// R6 LCD Segment out
 
-	R6IO		= 0xFF;			//							 
-	R6		    = 0x00;			//   							 
-	R6PSR		= 0x00;			// R6 LCD Segment out     
+    R7IO = 0xFF;			//
+    R7 = 0x00;			//
+    R7PSR = 0x00;               // R7 LCD Segment out
 
-	R7IO		= 0xFF;			//							 
-	R7		    = 0x00;			//   							 
-	R7PSR		= 0x00;			// R7 LCD Segment out     
+    WTMR = 0x99;		// WDT load enable 0001 1001 	//Needed for LCD clock
 
-	WTMR		= 0x99;			// WDT load enable 0001 1001 	//Needed for LCD clock
-   
+    LCR = 0x68;			// 4COM internal bias LCD   1110 1100
 
-	LCR	= 0x68	;			// 4COM internal bias LCD   1110 1100
+    lcdClear();
 
-	lcdClear();
+    //LBCR  = 0x9C;			// 1001_1100b (Vdd)
 
-	//LBCR  = 0x9C;			// 1001_1100b (Vdd)
+    //LBCR  = 0xFA;			// 1111_1010b (Vdd)
+    if (rSelf_Volt > 47)			//
+        LBCR = 0x89;// contrast Vdd/2 + Vdd/30  					x000_1xxx
+    else
+    {
+        if (rSelf_Volt > 42)
+            LBCR = 0xB1;// contrast  Vdd/2 + Vdd/20  				x011_0xxx
+        else
+        {
+            if (rSelf_Volt > 36)
+                LBCR = 0xD9;// contrast control Vdd/2 + Vdd/10 		x101_1xxx
+            else
+            {
+                if (rSelf_Volt > 30)
+                    LBCR = 0xF1;// contrast control Vdd/2 + Vdd/4  	x111_0xxx
+                else
+                    LBCR = 0xF9;		// contrast Vdd 			x111_1xxx
+            }
+        }
+    }
 
-//	LBCR  = 0xFA;			// 1111_1010b (Vdd)
-	if(rSelf_Volt>47)			// 
-		LBCR	= 0x89;		// contrast Vdd/2 + Vdd/30  					x000_1xxx
-	else 
-	{	if(rSelf_Volt>42)
-			LBCR	= 0xB1;	// contrast  Vdd/2 + Vdd/20  				x011_0xxx
-		else 
-		{	if(rSelf_Volt>36)
-				LBCR	= 0xD9;	// contrast control Vdd/2 + Vdd/10 		x101_1xxx
-			else
-			{	if(rSelf_Volt>30)
-					LBCR	= 0xF1;	// contrast control Vdd/2 + Vdd/4  	x111_0xxx
-				else 	LBCR	= 0xF9;		// contrast Vdd 			x111_1xxx 
-			}
-		}
-	} 
-		
 }
 
 void lcdClear()
 {
- 	unsigned char *ptr = LCD_ADDR;  //The first 2 seg are for the small number
-	unsigned char i=0; 
+    unsigned char *ptr = LCD_ADDR;  //The first 2 seg are for the small number
+    unsigned char i = 0;
 
-	//Clear the LCD
-	for(i=0; i<40; i++)
-	  *(ptr+i) = 0;
+    //Clear the LCD
+    for (i = 0; i < 40; i++)
+        *(ptr + i) = 0;
 
 }
 

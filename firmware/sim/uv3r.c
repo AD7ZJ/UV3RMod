@@ -83,54 +83,6 @@ void encoderPress(GtkWidget *widget, gpointer data)
 void initIOPorts()
 {
   int i;
-  //R00 Dial Data (Input + pullup)
-  //R04 Key tone (output)
-  //R05 Dial In  (Input + pullup)
-  //R06 Power Key Input/RDA1846 sck output
-  //R07 Keypad +? / CHG Det Input
-
-  //                      Dial Data 
-  R0IO = 0x50; //0101 0000
-  R0PSR= 0x00; //0000 0000  //Disable Enable buzzer
-  R0PU = 0x21; //0010 0001
-  R0 = 0x00;
-
-
-  //R10 Lap (Output)
-  //R11 Backlight (Output)
-  //R12 TXD (output)
-  //R13 PPT/RXD (Input)
-  //R14 GPIO6 (Input)
-  //R15 RDA1846 SEN (Output)
-  //R16 RDA1846 SDIO (INput/Output)
-  //R17 Speker Enable (Output)
-
-  R1IO=0xE7; 	// 1110 0111
-  R1PSR = 0x00; //Normal pins
-
-  //R20 Vox Det (Input analog)
-  //R21 Bat Det (Input analog)
-  //R22 RDA1846 GPIO0 (input)
-  //R23 Key Pad (Input Analog)
-  //R24 Pow SW (output)
-
-  //Reg on, turn on the radio
-  R2IO = 0x10; //0001 0000
-  R2PU		= 0x00;			// off,  off,  off,  off,  off,  off		 				 
-  R2OD		= 0x00;			// PP,   PP,   PP,   PP,   PP,   PP
-  R2		  = 0x00;			//  0     0     0     0     0     0   		         
-  // ADC   IO    IO    IO    IO    IO 
-
-
-  //Init interrupts
-  IENH  = 0x0C;     //  x, INT0(6), INT1(5), INT2(4),RX(3),TX(2),x,x  // TX/RX enable 
-  //IENM    = 0x80;     // T0E(7),T1E(6),T2E(5),T3E(4), -, -, -, ADCE(0) 
-  //IENL    = 0x10;     // SPIE(7),BITE(6),WDTE(5),WTE(4),INT3(3),I2CE(2),x,x               
-  
-  RADIO_PW = 1; //Power on the radio
-  SPK_EN = 0;  //Turn off the speaker
-
-
   GtkWidget *window;
 
   int argc = 0;
