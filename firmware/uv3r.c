@@ -58,30 +58,30 @@ char getDialEncoder()
   }
 }
 
-unsigned char readADC(unsigned char ADC_CH)			// 8bit ADC read 
+unsigned char readADC(unsigned char ADC_CH)            // 8bit ADC read 
 {
-  unsigned char k;				//
+  unsigned char k;                //
 
-  ADCRH  = 0x60;				// set 8bit ADC mode   
-  ADCM   = ADC_CH + 0x82;			// conversion start		 			               	 
-  for(k=0;k<0xFF;k++)			//
-  {	if(ADSF) break;			//
-  }						//
-  return	ADCRL;			// return 8 bit data 
-}							//
+  ADCRH  = 0x60;                // set 8bit ADC mode   
+  ADCM   = ADC_CH + 0x82;            // conversion start                                         
+  for(k=0;k<0xFF;k++)            //
+  {    if(ADSF) break;            //
+  }                        //
+  return    ADCRL;            // return 8 bit data 
+}                            //
 
 
 void getSelfBias(void)
 {
 
-  i	= readADC(ADC_BIAS);		// ADC_15 
+  i    = readADC(ADC_BIAS);        // ADC_15 
 #ifndef SIM
-  asm("	ldx	_i				;
-      lda	#0CAh				; 3280 
-      ldy	#0Ch				;
-      div					;
-      sta	_selfBias			;
-      ");						//
+  asm("    ldx    _i                ;
+      lda    #0CAh                ; 3280 
+      ldy    #0Ch                ;
+      div                    ;
+      sta    _selfBias            ;
+      ");                        //
 #endif
 
 }
@@ -110,7 +110,7 @@ void initIOPorts()
   //R16 RDA1846 SDIO (INput/Output)
   //R17 Speker Enable (Output)
 
-  R1IO=0xE7; 	// 1110 0111
+  R1IO=0xE7;     // 1110 0111
   R1PSR = 0x00; //Normal pins
 
   //R20 Vox Det (Input analog)
@@ -121,9 +121,9 @@ void initIOPorts()
 
   //Reg on, turn on the radio
   R2IO = 0x10; //0001 0000
-  R2PU		= 0x00;			// off,  off,  off,  off,  off,  off		 				 
-  R2OD		= 0x00;			// PP,   PP,   PP,   PP,   PP,   PP
-  R2		  = 0x00;			//  0     0     0     0     0     0   		         
+  R2PU        = 0x00;            // off,  off,  off,  off,  off,  off                          
+  R2OD        = 0x00;            // PP,   PP,   PP,   PP,   PP,   PP
+  R2          = 0x00;            //  0     0     0     0     0     0                    
   // ADC   IO    IO    IO    IO    IO 
 
 
@@ -208,43 +208,43 @@ unsigned char getKeys()
 
 
 //---------------------------------------------------------------
-//	N ms delay 	by 4MHz crystal 	
+//    N ms delay     by 4MHz crystal     
 //
-//	(caution!) its only aprox because the loop is not accounted for
+//    (caution!) its only aprox because the loop is not accounted for
 void msDelay(unsigned short value)
 {
    unsigned short i;
    for(i=0; i<value; i++) 
    {  
       delay(1000);
-      WDTR	= 0x9F; //reset the watch dog timer
+      WDTR    = 0x9F; //reset the watch dog timer
    }
 
 }
 
 //---------------------------------------------------------------
-//	N usec delay 	by 4MHz crystal 	
+//    N usec delay     by 4MHz crystal     
 //
-//	(caution!) It is available over 48us delay 
-void delay(unsigned short value)		 
+//    (caution!) It is available over 48us delay 
+void delay(unsigned short value)         
 {
-	wDly_count = value-30;		// 30 us 
+    wDly_count = value-30;        // 30 us 
 
 #ifndef SIM
  asm("
- 	lsr	_wDly_count+1		; 4	1/8 
-	ror	_wDly_count			; 4
- 	lsr	_wDly_count+1		; 4
-	ror	_wDly_count			; 4
- 	lsr	_wDly_count+1		; 4
-	ror	_wDly_count			; 4
+     lsr    _wDly_count+1        ; 4    1/8 
+    ror    _wDly_count            ; 4
+     lsr    _wDly_count+1        ; 4
+    ror    _wDly_count            ; 4
+     lsr    _wDly_count+1        ; 4
+    ror    _wDly_count            ; 4
 
  Rpt_dly:
-	decw	_wDly_count			; 6
-	nop					; 2
-	nop					; 2
-	nop					; 2
-	bne	Rpt_dly			; 4	500ns x 16 = 8us  
+    decw    _wDly_count            ; 6
+    nop                    ; 2
+    nop                    ; 2
+    nop                    ; 2
+    bne    Rpt_dly            ; 4    500ns x 16 = 8us  
     ");
 #endif
 }

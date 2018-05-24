@@ -29,7 +29,7 @@
 #include "radioModes.h"
 
 unsigned char selfBias;
-unsigned char	i;
+unsigned char    i;
 unsigned char currentMode = 0;
 
 struct RadioSettings radioSettings;
@@ -109,7 +109,7 @@ int main()
 
   while(1)
   {
-    WDTR	= 0xFF;
+    WDTR    = 0xFF;
     int k = 0; 
 
     unsigned char avl  = uartAvailable();

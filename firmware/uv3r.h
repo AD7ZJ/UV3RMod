@@ -144,13 +144,13 @@ extern unsigned char* LCD_ADDR;
 
 #define LCD_BACKLIGHT R11
 
-#define  	ADC_0		0x00           	// AN0	 
-#define  	ADC_1		0x04           	// AN1	 
-#define  	ADC_2		0x08          	// AN2	 
-#define  	ADC_3		0x0C         	// AN3	  
-#define  	ADC_4		0x10           	// AN4	 
-#define  	ADC_5		0x14           	// AN5	 
-#define  	ADC_BIAS	0x3C           	// AN15	 
+#define      ADC_0        0x00               // AN0     
+#define      ADC_1        0x04               // AN1     
+#define      ADC_2        0x08              // AN2     
+#define      ADC_3        0x0C             // AN3      
+#define      ADC_4        0x10               // AN4     
+#define      ADC_5        0x14               // AN5     
+#define      ADC_BIAS    0x3C               // AN15     
 
 #define  VOL_KEY    0x80
 #define  MENU_KEY   0x40
@@ -164,7 +164,7 @@ char getDialEncoder();
 void initIOPorts();
 unsigned char getKeys(); 
 char getBatteryLevel();
-unsigned char readADC(unsigned char ADC_CH);			// 8bit ADC read 
+unsigned char readADC(unsigned char ADC_CH);            // 8bit ADC read 
 void getSelfBias(void);
 
 void msDelay(unsigned short value);

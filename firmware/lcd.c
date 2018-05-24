@@ -163,43 +163,43 @@ void lcdAlphaNum(unsigned char pos, unsigned char c)
 void lcdInit(unsigned char rSelf_Volt)
 {
 
-    R5IO = 0xFF;		//
-    R5 = 0x00;			//
+    R5IO = 0xFF;        //
+    R5 = 0x00;            //
     R5PSR = 0x00;       // R5 LCD Segment out
 
-    R6IO = 0xFF;			//
-    R6 = 0x00;			//
-    R6PSR = 0x00;			// R6 LCD Segment out
+    R6IO = 0xFF;            //
+    R6 = 0x00;            //
+    R6PSR = 0x00;            // R6 LCD Segment out
 
-    R7IO = 0xFF;			//
-    R7 = 0x00;			//
+    R7IO = 0xFF;            //
+    R7 = 0x00;            //
     R7PSR = 0x00;               // R7 LCD Segment out
 
-    WTMR = 0x99;		// WDT load enable 0001 1001 	//Needed for LCD clock
+    WTMR = 0x99;        // WDT load enable 0001 1001     //Needed for LCD clock
 
-    LCR = 0x68;			// 4COM internal bias LCD   1110 1100
+    LCR = 0x68;            // 4COM internal bias LCD   1110 1100
 
     lcdClear();
 
-    //LBCR  = 0x9C;			// 1001_1100b (Vdd)
+    //LBCR  = 0x9C;            // 1001_1100b (Vdd)
 
-    //LBCR  = 0xFA;			// 1111_1010b (Vdd)
-    if (rSelf_Volt > 47)			//
-        LBCR = 0x89;// contrast Vdd/2 + Vdd/30  					x000_1xxx
+    //LBCR  = 0xFA;            // 1111_1010b (Vdd)
+    if (rSelf_Volt > 47)            //
+        LBCR = 0x89;// contrast Vdd/2 + Vdd/30                      x000_1xxx
     else
     {
         if (rSelf_Volt > 42)
-            LBCR = 0xB1;// contrast  Vdd/2 + Vdd/20  				x011_0xxx
+            LBCR = 0xB1;// contrast  Vdd/2 + Vdd/20                  x011_0xxx
         else
         {
             if (rSelf_Volt > 36)
-                LBCR = 0xD9;// contrast control Vdd/2 + Vdd/10 		x101_1xxx
+                LBCR = 0xD9;// contrast control Vdd/2 + Vdd/10         x101_1xxx
             else
             {
                 if (rSelf_Volt > 30)
-                    LBCR = 0xF1;// contrast control Vdd/2 + Vdd/4  	x111_0xxx
+                    LBCR = 0xF1;// contrast control Vdd/2 + Vdd/4      x111_0xxx
                 else
-                    LBCR = 0xF9;		// contrast Vdd 			x111_1xxx
+                    LBCR = 0xF9;        // contrast Vdd             x111_1xxx
             }
         }
     }

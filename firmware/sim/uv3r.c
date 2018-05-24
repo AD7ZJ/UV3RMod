@@ -46,22 +46,22 @@ unsigned char encoderState = 0;
 //Insperations from
 // http://www.circuitsathome.com/mcu/reading-rotary-encoder-on-arduino
 
-unsigned char readADC(unsigned char ADC_CH)			// 8bit ADC read 
+unsigned char readADC(unsigned char ADC_CH)            // 8bit ADC read 
 {
-  unsigned char k;				//
+  unsigned char k;                //
 
-  ADCRH  = 0x60;				// set 8bit ADC mode   
-  ADCM   = ADC_CH + 0x82;			// conversion start		 			               	 
-  for(k=0;k<0xFF;k++)			//
-  {	if(ADSF) break;			//
-  }						//
-  return	ADCRL;			// return 8 bit data 
-}							//
+  ADCRH  = 0x60;                // set 8bit ADC mode   
+  ADCM   = ADC_CH + 0x82;            // conversion start                                         
+  for(k=0;k<0xFF;k++)            //
+  {    if(ADSF) break;            //
+  }                        //
+  return    ADCRL;            // return 8 bit data 
+}                            //
 
 
 void getSelfBias(void)
 {
-  i	= readADC(ADC_BIAS);		// ADC_15 
+  i    = readADC(ADC_BIAS);        // ADC_15 
 }
 
 void buttonPress(GtkWidget *widget, gpointer data)
@@ -211,9 +211,9 @@ char getDialEncoder()
 unsigned short wDly_count;
 
 //---------------------------------------------------------------
-//	N ms delay 	by 4MHz crystal 	
+//    N ms delay     by 4MHz crystal     
 //
-//	(caution!) its only aprox because the loop is not accounted for
+//    (caution!) its only aprox because the loop is not accounted for
 void msDelay(unsigned short value)
 {
   unsigned short i;
@@ -224,10 +224,10 @@ void msDelay(unsigned short value)
 }
 
 //---------------------------------------------------------------
-//	N usec delay 	by 4MHz crystal 	
+//    N usec delay     by 4MHz crystal     
 //
-//	(caution!) It is available over 48us delay 
-void delay(unsigned short value)		 
+//    (caution!) It is available over 48us delay 
+void delay(unsigned short value)         
 {
 }
 

@@ -68,7 +68,7 @@ unsigned char getChar()
 {
   int i;
   for(i=0; i<1000 && !uartAvailable(); i++)
-    WDTR	= 0x9F;
+    WDTR    = 0x9F;
 
   if (uartAvailable())
     return uartRead();
@@ -119,7 +119,7 @@ void uartSendMsg(char* str)
   //LCD_BACKLIGHT=1;
   //Wait for any previous tx to finish
   while(txHead != txTail)
-    WDTR	= 0x9F;
+    WDTR    = 0x9F;
  // LCD_BACKLIGHT=0;
 
   while(*str != 0)
@@ -132,7 +132,7 @@ void uartSendMsg(char* str)
 
   ////Wait for TX for finish
   //while(txHead != txTail)
-  //  WDTR	= 0x9F;
+  //  WDTR    = 0x9F;
 
 }
 

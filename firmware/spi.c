@@ -30,7 +30,7 @@ unsigned short SPI(unsigned char address, short data)
   unsigned char counter;
   int i;
 
-  R1IO=0xE7; 			//1110 0011//Speaker enable Pin 31 output R10
+  R1IO=0xE7;             //1110 0011//Speaker enable Pin 31 output R10
   //Send R/W
 
   unsigned char read = address & 0x80;
@@ -53,7 +53,7 @@ unsigned short SPI(unsigned char address, short data)
 
   if (read)
   {
-    R1IO=0xA7; 			//1010 0011//Speaker enable Pin 31 output R10 	
+    R1IO=0xA7;             //1010 0011//Speaker enable Pin 31 output R10     
     data = 0;
 
     for(counter = 16; counter; counter--)
@@ -82,7 +82,7 @@ unsigned short SPI(unsigned char address, short data)
       data <<= 1;
     }
   }
-  R1IO=0xE7; 			//1110 0011//Speaker enable Pin 31 output R10
+  R1IO=0xE7;             //1110 0011//Speaker enable Pin 31 output R10
   RDA1846_SEN = 1;
 
   return data;
